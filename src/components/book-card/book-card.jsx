@@ -1,7 +1,5 @@
-// Here you import the PropTypes library
 import PropTypes from "prop-types";
 
-// The BookCard function component 
 export const BookCard = ({ book, onBookClick }) => {
   return (
     <div
@@ -14,12 +12,11 @@ export const BookCard = ({ book, onBookClick }) => {
   );
 };
 
-// Here is where we define all the props constraints for the BookCard
 BookCard.propTypes = {
-    book: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      author: PropTypes.string
-    }).isRequired,
-    onBookClick: PropTypes.func.isRequired
-  };
+  book: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    author: PropTypes.string
+  }).isRequired,
+  onBookClick: PropTypes.func.isRequired
+};

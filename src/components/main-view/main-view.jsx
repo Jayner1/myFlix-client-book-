@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { BookCard } from "../book-card/book-card";
 import { BookView } from "../book-view/book-view";
+import { LoginView } from "../login-view/login-view";
+import { SignupView } from "../signup-view/signup-view";
 
 export const MainView = () => {
   const [books, setBooks] = useState([]);
@@ -22,7 +24,19 @@ export const MainView = () => {
       });
   }, []);
 
-const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBook, setSelectedBook] = useState(null);
+
+  const [user, setUser] = useState(null);
+
+  if (!user) {
+    return (
+      <>
+        <LoginView onLoggedIn={(user) => setUser(user)} />
+        or
+        <SignupView />
+      </>
+    );
+  }
 
   if (selectedBook) {
     return (
@@ -37,7 +51,7 @@ const [selectedBook, setSelectedBook] = useState(null);
   return (
     <div>
       {books.map((book) => (
-            <BookCard
+        <BookCard
           key={book.id}
           book={book}
           onBookClick={(newSelectedBook) => {
@@ -47,4 +61,4 @@ const [selectedBook, setSelectedBook] = useState(null);
       ))}
     </div>
   );
-}
+};

@@ -16,3 +16,4 @@ export const BookView = ({ book, onBackClick }) => {
       </div>
     );
   };
+  
