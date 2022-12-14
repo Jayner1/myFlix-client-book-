@@ -3,9 +3,13 @@ import { BookCard } from "../book-card/book-card";
 import { BookView } from "../book-view/book-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 export const MainView = () => {
   const [books, setBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetch("https://openlibrary.org/search.json?q=star+wars")
@@ -24,41 +28,37 @@ export const MainView = () => {
       });
   }, []);
 
-  const [selectedBook, setSelectedBook] = useState(null);
-
-  const [user, setUser] = useState(null);
-
-  if (!user) {
-    return (
-      <>
-        <LoginView onLoggedIn={(user) => setUser(user)} />
-        or
-        <SignupView />
-      </>
-    );
-  }
-
-  if (selectedBook) {
-    return (
-      <BookView book={selectedBook} onBackClick={() => setSelectedBook(null)} />
-    );
-  }
-
-  if (books.length === 0) {
-    return <div>The list is empty!</div>;
-  }
-
   return (
-    <div>
-      {books.map((book) => (
-        <BookCard
-          key={book.id}
-          book={book}
-          onBookClick={(newSelectedBook) => {
-            setSelectedBook(newSelectedBook);
-          }}
-        />
-      ))}
-    </div>
+    <Row className="justify-content-md-center">
+      {!user ? (
+        <Col md={5}>
+          <LoginView onLoggedIn={(user) => setUser(user)} />
+          or
+          <SignupView />
+        </Col>
+      ) : selectedBook ? (
+        <Col md={8}>
+          <BookView
+            book={selectedBook}
+            onBackClick={() => setSelectedBook(null)}
+          />
+        </Col>
+      ) : books.length === 0 ? (
+        <div>The list is empty!</div>
+      ) : (
+        <>
+          {books.map((book) => (
+            <Col className="mb-4" key={book.id} md={3}>
+              <BookCard
+                book={book}
+                onBookClick={(newSelectedBook) => {
+                  setSelectedBook(newSelectedBook);
+                }}
+              />
+            </Col>
+          ))}
+        </>
+      )}
+    </Row>
   );
 };
