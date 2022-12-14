@@ -1,6 +1,12 @@
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import "./book-view.scss";
 
-export const BookView = ({ book, onBackClick }) => {
+export const BookView = ({ books }) => {
+  const { bookId } = useParams();
+
+  const book = books.find((b) => b.id === bookId);
+
   return (
     <div>
       <div>
@@ -14,13 +20,9 @@ export const BookView = ({ book, onBackClick }) => {
         <span>Author: </span>
         <span>{book.author}</span>
       </div>
-      <button
-        onClick={onBackClick}
-        className="back-button"
-        style={{ cursor: "pointer" }}
-      >
-        Back
-      </button>
+      <Link to={`/`}>
+        <button className="back-button">Back</button>
+      </Link>
     </div>
   );
 };
